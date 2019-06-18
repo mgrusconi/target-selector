@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  radar:
+    build: ./
+    container_name: radar
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/usr/src/app
+  
+  test:
+    image: ellerbrock/alpine-bash-curl-ssl
+    depends_on:
+      - radar
+    volumes:
+      - ./test:/testing
+    working_dir: /testing
+    entrypoint: /testing/tests.sh
